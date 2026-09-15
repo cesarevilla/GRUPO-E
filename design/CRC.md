@@ -40,4 +40,13 @@ Colaboradores:
 Funcionário 
 Relatório
 
+CRC 04 - Justificativa:
+Armazenar a data da ocorrência.
+Armazenar um motivo inserido pelo funcionário.
+Associar a justificativa criada ao funcionário.
+Manter a justificativa disponível e pendente para análise do RH.
+Receber o resultado da análise feita pelo RH.
+Colaboradores:
+Funcionário
+RH
 
