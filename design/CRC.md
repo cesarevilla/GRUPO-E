@@ -29,11 +29,15 @@ Funcionario
 Justificativa
 Relatorio
 
-CRC 03 - RegistroPonto
+CRC 03 - RegistroPonto:
 Identificar o funcionário antes de concluir o registro do ponto.
 Registrar a data exata do check-in ou check-out.
 Registrar o horário exato do check-in ou check-out.
 Impedir o registro de dois check-ins consecutivos sem que haja um check-out correspondente.
 Verificar no momento da saída se existe um check-in correspondente em aberto.
 Associar os registros de horário de entrada e saída ao funcionário identificado.
-Colaboradores: Funcionário e Relatório.
+Colaboradores: 
+Funcionário 
+Relatório
+
+
