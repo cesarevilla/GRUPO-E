@@ -47,7 +47,7 @@ Critérios de aceitação:
 - O RH deve poder rejeitar uma justificativa.
 - O sistema deve registrar o resultado da análise.
 - 
--  Catões CRC
+
 CRC 01 — Funcionário:
 Responsabilidades:
 - Armazenar os dados do funcionário.
@@ -61,4 +61,5 @@ Responsabilidades:
 Colaborações:
 - RegistroPonto.
 - Justificativa
+- Relatório
   
