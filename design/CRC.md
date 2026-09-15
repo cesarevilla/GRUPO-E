@@ -13,3 +13,18 @@ Consultar suas justificativas. Colaborações:
 RegistroPonto.
 Justificativa
 Relatório
+
+CRC 02 — RH:
+Responsabilidades:
+Armazenar os dados de acesso do RH.
+Consultar funcionários.
+Consultar registros de ponto.
+Consultar horas trabalhadas.
+Consultar justificativas.
+Analisar justificativas.
+Aceitar justificativas.
+Rejeitar justificativas.
+Colaborações:
+Funcionario
+Justificativa
+Relatorio
