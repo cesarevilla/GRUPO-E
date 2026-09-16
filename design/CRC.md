@@ -50,3 +50,27 @@ Colaboradores:
 Funcionário
 RH
 
+CRC 05 - Relatório:
+Apresentar os registros de um determinado período para consultas.
+Apresentar os horários de cada entrada e saída.
+Calcular o período trabalhado a partir dos registros de entrada e saída.
+Apresentar o total de horas trabalhadas no dia/mês.
+Permitir consultas detalhadas e apresentar o histórico mensal do trabalho.
+Colaboradores:
+Funcionário
+RegistroPonto
+RH
+
+CRC 06 - GerenciadorSistema:
+Identificar usuários e controlar o acesso ao sistema.
+Direcionar a ação de registrar início e término de jornada para a classe correspondente.
+Direcionar e administrar as requisições de consulta de histórico mensal e diário.
+Associar e interligar os dados das justificativas enviadas para a tela de análise do RH.
+Manter o histórico consolidado de todas as atividades (entradas, saídas e justificativas) para a administração.
+Colaboradores:
+Funcionário
+RH
+RegistroPonto
+Justificativa
+
+
