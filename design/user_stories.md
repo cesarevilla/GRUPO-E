@@ -46,7 +46,24 @@ Critérios de aceitação:
 - O RH deve poder aceitar uma justificativa.
 - O RH deve poder rejeitar uma justificativa.
 - O sistema deve registrar o resultado da análise.
-- 
+
+US07 — Editar registro de ponto
+Como RH, quero editar um registro de ponto de um funcionário para corrigir possíveis inconsistências nos horários registrados.
+Critérios de aceitação:
+- O sistema deve permitir selecionar um funcionário.
+- O sistema deve permitir selecionar o registro de ponto que será editado.
+- O RH deve poder alterar a data e os horários de entrada e saída.
+- O sistema deve exigir uma justificativa para a alteração.
+- O sistema deve registrar as alterações realizadas.
+
+US08 — Consultar justificativas
+Como funcionário, quero consultar minhas justificativas para acompanhar o resultado das análises realizadas pelo RH.
+Critérios de aceitação:
+- O sistema deve apresentar as justificativas registradas pelo funcionário.
+- O sistema deve apresentar a data e o motivo de cada justificativa.
+- O sistema deve informar o status da justificativa (pendente, aceita ou rejeitada).
+- O sistema deve apresentar o resultado da análise realizada pelo RH, quando disponível.
+- O sistema deve permitir consultar as justificativas por período.
 
 
   
