@@ -1,23 +1,60 @@
-#ifndef RH_HPP
-#define RH_HPP
+#ifndef REGISTRO_PONTO_HPP
+#define REGISTRO_PONTO_HPP
 
 #include <string>
-#include <vector>
 
-class RH {
+/**
+ * @file RegistroPonto.hpp
+ * @brief Definição da classe RegistroPonto.
+ */
+
+/**
+ * @class RegistroPonto
+ * @brief Responsável pelo controle e validação de batidas de ponto (check-in/check-out).
+ */
+class RegistroPonto {
 private:
-    std::string _usuarioAdmin;
-    std::string _senha;
+    int _idRegistro;
+    int _idFuncionario;
+    std::string _data;
+    std::string _horarioEntrada;
+    std::string _horarioSaida;
+    bool _emAberto;
 
 public:
-    RH(const std::string& usuario, const std::string& senha);
+    /**
+     * @brief Construtor do RegistroPonto.
+     * @param idRegistro Identificador do registro.
+     * @param idFuncionario Identificador do funcionário associado.
+     */
+    RegistroPonto(int idRegistro, int idFuncionario);
 
-    bool autenticar(const std::string& usuario, const std::string& senha) const;
-    void consultarFuncionario(int idFuncionario) const;
-    void consultarRegistrosPonto(int idFuncionario) const;
-    void consultarHorasTrabalhadas(int idFuncionario) const;
-    void consultarJustificativas() const;
-    void analisarJustificativa(int idJustificativa, bool aprovado);
+    /**
+     * @brief Registra a data e o horário exato de entrada.
+     * @param data Data no formato DD/MM/AAAA.
+     * @param hora Horário no formato HH:MM:SS.
+     * @return Verdadeiro se o check-in foi bem-sucedido.
+     */
+    bool registrarEntrada(const std::string& data, const std::string& hora);
+
+    /**
+     * @brief Registra o horário exato de saída.
+     * @param hora Horário no formato HH:MM:SS.
+     * @return Verdadeiro se houver check-in em aberto correspondente.
+     */
+    bool registrarSaida(const std::string& hora);
+
+    /**
+     * @brief Verifica se existe um check-in em aberto sem check-out correspondente.
+     * @return Verdadeiro se estiver em aberto.
+     */
+    bool estaEmAberto() const;
+
+    /**
+     * @brief Retorna o ID do funcionário associado a este registro.
+     * @return ID do funcionário.
+     */
+    int getIdFuncionario() const;
 };
 
-#endif
+#endif // REGISTRO_PONTO_HPP
