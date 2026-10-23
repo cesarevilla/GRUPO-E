@@ -1,21 +1,19 @@
-
 #include <cassert>
-#include <iostream>
 #include "Justificativa.hpp"
 
 int main() {
     Justificativa j(1, 10, "20/10/2026", "Atraso");
 
     assert(j.getStatus() == StatusJustificativa::PENDENTE);
-    assert(j.getIdFuncionario() == 10);
+    assert(j.getFuncionario() == 10);
+    assert(j.getData() == "20/10/2026");
+    assert(j.getMotivo() == "Atraso");
 
-    j.atualizarStatus(StatusJustificativa::ACEITA);
+    j.aceitar();
     assert(j.getStatus() == StatusJustificativa::ACEITA);
 
-    j.atualizarStatus(StatusJustificativa::REJEITADA);
+    j.rejeitar();
     assert(j.getStatus() == StatusJustificativa::REJEITADA);
-
-    std::cout << "Todos os testes passaram!" << std::endl;
 
     return 0;
 }
