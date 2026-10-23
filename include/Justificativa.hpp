@@ -1,16 +1,16 @@
+/**
+ * @file Justificativa.hpp
+ * @brief Declara a classe Justificativa.
+ */
+
 #ifndef JUSTIFICATIVA_HPP
 #define JUSTIFICATIVA_HPP
 
 #include <string>
 
 /**
- * @file Justificativa.hpp
- * @brief Enum e classe para gestão de justificativas de falta ou ajuste de ponto.
- */
-
-/**
  * @enum StatusJustificativa
- * @brief Situação da avaliação pelo RH.
+ * @brief Representa os possíveis estados da justificativa.
  */
 enum class StatusJustificativa {
     PENDENTE,
@@ -20,7 +20,7 @@ enum class StatusJustificativa {
 
 /**
  * @class Justificativa
- * @brief Representa um pedido de justificativa enviado pelo funcionário para análise do RH.
+ * @brief Representa uma justificativa enviada por um funcionário.
  */
 class Justificativa {
 private:
@@ -32,31 +32,32 @@ private:
 
 public:
     /**
-     * @brief Construtor da Justificativa.
-     * @param id Identificador da justificativa.
-     * @param idFuncionario Identificador do funcionário criador.
-     * @param data Data referente à ocorrência.
-     * @param motivo Texto do motivo inserido pelo funcionário.
+     * @brief Cria uma justificativa com status pendente.
      */
-    Justificativa(int id, int idFuncionario, const std::string& data, const std::string& motivo);
+    Justificativa(int id, int idFuncionario,
+                  const std::string& data,
+                  const std::string& motivo);
 
-    /**
-     * @brief Atualiza o status da justificativa após análise do RH.
-     * @param novoStatus Novo estado (ACEITA ou REJEITADA).
-     */
-    void atualizarStatus(StatusJustificativa novoStatus);
+    /** @brief Consulta os dados da justificativa. */
+    void consultar() const;
 
-    /**
-     * @brief Obtém o status atual da justificativa.
-     * @return StatusJustificativa (PENDENTE, ACEITA, REJEITADA).
-     */
+    /** @brief Aceita a justificativa. */
+    void aceitar();
+
+    /** @brief Rejeita a justificativa. */
+    void rejeitar();
+
+    /** @brief Retorna a data da ocorrência. */
+    std::string getData() const;
+
+    /** @brief Retorna o motivo da justificativa. */
+    std::string getMotivo() const;
+
+    /** @brief Retorna o status atual. */
     StatusJustificativa getStatus() const;
 
-    /**
-     * @brief Obtém o ID do funcionário dono da justificativa.
-     * @return ID do funcionário.
-     */
-    int getIdFuncionario() const;
+    /** @brief Retorna o identificador do funcionário associado. */
+    int getFuncionario() const;
 };
 
-#endif // JUSTIFICATIVA_HPP
+#endif
