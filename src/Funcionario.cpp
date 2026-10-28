@@ -1,50 +1,57 @@
+```cpp
 #include "Funcionario.hpp"
+#include "Ponto.hpp"
 
-Funcionario::Funcionario(std::string nome, std::string senha, int codigo)
+Funcionario::Funcionario(std::string nome,
+                         std::string senha,
+                         int codigo,
+                         Ponto* ponto)
 {
-
     this->nome = nome;
     this->senha = senha;
     this->codigo = codigo;
+    this->ponto = ponto;
 }
 
 void Funcionario::registrarEntrada()
 {
-    horario_entrada = consultarHoras();                                                 //pegar o horario formatado
-    horario_minutos_entrada = getHorarioEntrada();                                    //horario em minutos, para fazer calculos PRECISO CRIAR A FUNÇÃO AINDA
+    ponto->registrarEntrada(codigo);
 }
 
 void Funcionario::registrarSaida()
 {
-    horario_saida = getHorario();                                                   //pegar o horario formatado
-    horario_minutos_saida = getHorarioSaida();                                        //horario em minutos, para fazer calculos PRECISO CRIAR A FUNÇÃO AINDA
+    ponto->registrarSaida(codigo);
 }
 
-void Funcionario::criarJustificativa(std::string data, std::string motivo, std::string status)
+void Funcionario::criarJustificativa(std::string data,
+                                     std::string motivo,
+                                     std::string status)
 {
     Justificativa j(data, motivo, status, nome);
+
     justificativas.push_back(j);
 }
 
 std::string Funcionario::consultarHoras()
 {
-    Ponto p;
-    return p.getHorario(codigo);
+    return ponto->getHorario(codigo);
 }
 
 std::string Funcionario::consultarJustificativa()
 {
-    Justificativa j;
-    return j.consultar(codigo);
+    // Implementar depois, quando definirmos como
+    // a classe Justificativa fará a consulta.
+
+    return "";
 }
 
 std::string Funcionario::consultarNome()
 {
     return nome;
-}                          
+}
 
 int Funcionario::consultarCodigo()
 {
     return codigo;
 }
-
+```
