@@ -16,7 +16,7 @@ private:
     std::vector<RH*> rhs;
 
     Ponto* ponto;
-    Relatorio* relatorio;
+    Relatorio relatorio;
 
 public:
     GerenciadorSistema(Ponto* ponto);
