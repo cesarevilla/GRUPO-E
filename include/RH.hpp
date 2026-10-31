@@ -25,8 +25,11 @@ public:
     std::string consultarHorasFuncionarios();
     std::string consultarJustificativasFuncionarios();
 
-    void aceitarJustificativa(Justificativa& justificativa);
-    void rejeitarJustificativa(Justificativa& justificativa);
+    void aceitarJustificativa(Funcionario* funcionario,
+                              int indice);
+
+    void rejeitarJustificativa(Funcionario* funcionario,
+                               int indice);
 };
 
 #endif
