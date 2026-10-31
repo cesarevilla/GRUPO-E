@@ -38,6 +38,9 @@ public:
     int consultarCodigo();
 
     bool verificarSenha(std::string senha);
+
+    void aceitarJustificativa(int indice);
+    void rejeitarJustificativa(int indice);
 };
 
 #endif
