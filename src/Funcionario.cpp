@@ -100,3 +100,19 @@ bool Funcionario::verificarSenha(std::string senha)
 {
     return this->senha == senha;
 }
+
+void Funcionario::aceitarJustificativa(int indice)
+{
+    if (indice >= 0 && indice < justificativas.size())
+    {
+        justificativas[indice].aceitar();
+    }
+}
+
+void Funcionario::rejeitarJustificativa(int indice)
+{
+    if (indice >= 0 && indice < justificativas.size())
+    {
+        justificativas[indice].rejeitar();
+    }
+}
