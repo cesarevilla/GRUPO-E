@@ -18,7 +18,7 @@ private:
     std::vector<Registro> registros;
 
     Registro criarRegistro(int codigoFuncionario,
-                           const std::string& tipo);
+                           std::string tipo);
 
 public:
     void registrarEntrada(int codigoFuncionario);
@@ -28,6 +28,16 @@ public:
     std::string getHorario(int codigoFuncionario);
     std::string getTipo(int codigoFuncionario);
     int getFuncionario(int codigoFuncionario);
+
+    std::string getHorarioEntrada(int codigoFuncionario,
+                                   std::string data);
+
+    std::string getHorarioSaida(int codigoFuncionario,
+                                std::string data);
+
+    std::string consultarRegistros(int codigoFuncionario);
+
+    std::string consultarHistorico(int codigoFuncionario);
 };
 
 #endif
