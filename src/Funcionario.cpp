@@ -1,4 +1,3 @@
-```cpp
 #include "Funcionario.hpp"
 #include "Ponto.hpp"
 
