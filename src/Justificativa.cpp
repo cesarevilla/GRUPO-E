@@ -1,44 +1,85 @@
-
-##include "Justificativa.hpp"
+#include "Justificativa.hpp"
 #include <iostream>
 
-Justificativa::Justificativa(int id, int idFuncionario,
-                             const std::string& data,
-                             const std::string& motivo)
-    : _idJustificativa(id),
-      _idFuncionario(idFuncionario),
-      _dataOcorrencia(data),
-      _motivo(motivo),
-      _status(StatusJustificativa::PENDENTE) {
+Justificativa::Justificativa(std::string data,
+                             std::string motivo,
+                             std::string status,
+                             std::string funcionario)
+{
+    this->data = data;
+    this->motivo = motivo;
+    this->funcionario = funcionario;
+
+    if (status == "pendente")
+    {
+        this->status = StatusJustificativa::PENDENTE;
+    }
+    else if (status == "aceita")
+    {
+        this->status = StatusJustificativa::ACEITA;
+    }
+    else if (status == "rejeitada")
+    {
+        this->status = StatusJustificativa::REJEITADA;
+    }
+    else
+    {
+        this->status = StatusJustificativa::PENDENTE;
+    }
 }
 
-void Justificativa::consultar() const {
-    std::cout << "Data: " << _dataOcorrencia << '\n';
-    std::cout << "Motivo: " << _motivo << '\n';
-    std::cout << "Funcionario: " << _idFuncionario << '\n';
-    std::cout << "Status: " << static_cast<int>(_status) << '\n';
+void Justificativa::consultar() const
+{
+    std::cout << "Data: " << data << '\n';
+    std::cout << "Motivo: " << motivo << '\n';
+    std::cout << "Funcionario: " << funcionario << '\n';
+
+    std::cout << "Status: ";
+
+    switch (status)
+    {
+        case StatusJustificativa::PENDENTE:
+            std::cout << "Pendente";
+            break;
+
+        case StatusJustificativa::ACEITA:
+            std::cout << "Aceita";
+            break;
+
+        case StatusJustificativa::REJEITADA:
+            std::cout << "Rejeitada";
+            break;
+    }
+
+    std::cout << '\n';
 }
 
-void Justificativa::aceitar() {
-    _status = StatusJustificativa::ACEITA;
+void Justificativa::aceitar()
+{
+    status = StatusJustificativa::ACEITA;
 }
 
-void Justificativa::rejeitar() {
-    _status = StatusJustificativa::REJEITADA;
+void Justificativa::rejeitar()
+{
+    status = StatusJustificativa::REJEITADA;
 }
 
-std::string Justificativa::getData() const {
-    return _dataOcorrencia;
+std::string Justificativa::getData() const
+{
+    return data;
 }
 
-std::string Justificativa::getMotivo() const {
-    return _motivo;
+std::string Justificativa::getMotivo() const
+{
+    return motivo;
 }
 
-StatusJustificativa Justificativa::getStatus() const {
-    return _status;
+StatusJustificativa Justificativa::getStatus() const
+{
+    return status;
 }
 
-int Justificativa::getFuncionario() const {
-    return _idFuncionario;
+std::string Justificativa::getFuncionario() const
+{
+    return funcionario;
 }
