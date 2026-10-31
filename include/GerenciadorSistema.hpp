@@ -1,64 +1,44 @@
-#ifndef GERENCIADOR_SISTEMA_HPP
-#define GERENCIADOR_SISTEMA_HPP
+#ifndef GERENCIADORSISTEMA_HPP
+#define GERENCIADORSISTEMA_HPP
 
 #include "Funcionario.hpp"
 #include "RH.hpp"
-#include "RegistroPonto.hpp"
-#include "Justificativa.hpp"
+#include "Ponto.hpp"
 #include "Relatorio.hpp"
+
+#include <string>
 #include <vector>
 
-/**
- * @file GerenciadorSistema.hpp
- * @brief Definição do orquestrador principal do sistema.
- */
-
-/**
- * @class GerenciadorSistema
- * @brief Classe principal que gerencia o fluxo de controle, autenticação e dados do sistema.
- */
-class GerenciadorSistema {
+class GerenciadorSistema
+{
 private:
-    std::vector<Funcionario> _funcionarios;
-    std::vector<RegistroPonto> _registros;
-    std::vector<Justificativa> _justificativas;
+    std::vector<Funcionario*> funcionarios;
+    std::vector<RH*> rhs;
+
+    Ponto* ponto;
+    Relatorio* relatorio;
 
 public:
-    /**
-     * @brief Construtor do GerenciadorSistema.
-     */
-    GerenciadorSistema();
+    GerenciadorSistema(Ponto* ponto);
 
-    /**
-     * @brief Controla o acesso e valida credenciais do usuário.
-     * @param idUsuario Identificador ou usuário cadastrado.
-     * @return Verdadeiro se o login for válido.
-     */
-    bool autenticarUsuario(int idUsuario);
+    void adicionarFuncionario(Funcionario* funcionario);
+    void adicionarRH(RH* rh);
 
-    /**
-     * @brief Direciona a requisição de entrada ou saída para a classe RegistroPonto.
-     * @param idFuncionario Identificador do funcionário.
-     * @param ehEntrada Verdadeiro se for entrada, falso se for saída.
-     */
-    void registrarJornada(int idFuncionario, bool ehEntrada);
+    Funcionario* login(int codigo, std::string senha);
 
-    /**
-     * @brief Administra e exibe requisições de histórico diário e mensal.
-     * @param idFuncionario Identificador do funcionário.
-     */
-    void processarConsultaHistorico(int idFuncionario);
+    void registrarEntrada(Funcionario* funcionario);
+    void registrarSaida(Funcionario* funcionario);
 
-    /**
-     * @brief Encaminha justificativa criada para a fila de análise do RH.
-     * @param justificativa Objeto da justificativa gerada.
-     */
-    void enviarJustificativaParaRH(const Justificativa& justificativa);
+    std::string consultarHistorico(Funcionario* funcionario);
 
-    /**
-     * @brief Mantém o histórico consolidado de todas as atividades para uso administrativo.
-     */
-    void exibirHistoricoGeral() const;
+    void enviarJustificativa(Funcionario* funcionario,
+                             std::string data,
+                             std::string motivo,
+                             std::string status);
+
+    std::string consultarJustificativas(Funcionario* funcionario);
+
+    Relatorio* getRelatorio();
 };
 
-#endif // GERENCIADOR_SISTEMA_HPP
+#endif
