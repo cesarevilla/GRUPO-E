@@ -38,10 +38,41 @@ std::string Funcionario::consultarHoras()
 
 std::string Funcionario::consultarJustificativa()
 {
-    // Implementar depois, quando definirmos como
-    // a classe Justificativa fará a consulta.
+    if (justificativas.empty())
+    {
+        return "Nenhuma justificativa cadastrada.";
+    }
 
-    return "";
+    std::string resultado;
+
+    for (int i = 0; i < justificativas.size(); i++)
+    {
+        resultado += "Justificativa " + std::to_string(i + 1) + ":\n";
+        resultado += "Data: " + justificativas[i].getData() + "\n";
+        resultado += "Motivo: " + justificativas[i].getMotivo() + "\n";
+        resultado += "Funcionario: " + justificativas[i].getFuncionario() + "\n";
+
+        resultado += "Status: ";
+
+        switch (justificativas[i].getStatus())
+        {
+            case StatusJustificativa::PENDENTE:
+                resultado += "Pendente";
+                break;
+
+            case StatusJustificativa::ACEITA:
+                resultado += "Aceita";
+                break;
+
+            case StatusJustificativa::REJEITADA:
+                resultado += "Rejeitada";
+                break;
+        }
+
+        resultado += "\n\n";
+    }
+
+    return resultado;
 }
 
 std::string Funcionario::consultarNome()
@@ -53,4 +84,3 @@ int Funcionario::consultarCodigo()
 {
     return codigo;
 }
-```
