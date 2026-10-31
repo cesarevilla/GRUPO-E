@@ -19,7 +19,10 @@ private:
     Ponto* ponto;
 
 public:
-    Funcionario(std::string nome, std::string senha, int codigo, Ponto* ponto);
+    Funcionario(std::string nome,
+                std::string senha,
+                int codigo,
+                Ponto* ponto);
 
     void registrarEntrada();
     void registrarSaida();
@@ -33,6 +36,8 @@ public:
 
     std::string consultarNome();
     int consultarCodigo();
+
+    bool verificarSenha(std::string senha);
 };
 
 #endif
