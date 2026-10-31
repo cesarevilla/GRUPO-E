@@ -1,48 +1,31 @@
 #ifndef RELATORIO_HPP
 #define RELATORIO_HPP
 
+#include "Ponto.hpp"
+
 #include <string>
-#include <vector>
 
-/**
- * @file Relatorio.hpp
- * @brief Definição da classe Relatorio.
- */
-
-/**
- * @class Relatorio
- * @brief Consolida dados de frequência para geração de histórico mensal/diário e calculo de horas.
- */
-class Relatorio {
+class Relatorio
+{
 private:
-    int _idFuncionario;
-    std::string _periodoInicio;
-    std::string _periodoFim;
+    Ponto* ponto;
 
 public:
-    /**
-     * @brief Construtor do Relatorio.
-     * @param idFuncionario Identificador do funcionário.
-     * @param inicio Data inicial do período.
-     * @param fim Data final do período.
-     */
-    Relatorio(int idFuncionario, const std::string& inicio, const std::string& fim);
+    Relatorio(Ponto* ponto);
 
-    /**
-     * @brief Apresenta o histórico de batidas de entrada e saída.
-     */
-    void apresentarRegistros() const;
+    std::string gerarRelatorioDiario(int codigoFuncionario,
+                                     std::string data);
 
-    /**
-     * @brief Calcula a carga horária trabalhada com base nos horários de entrada e saída.
-     * @return Total de horas em formato numérico.
-     */
-    double calcularHorasTrabalhadas() const;
+    std::string gerarRelatorioMensal(int codigoFuncionario,
+                                     int mes,
+                                     int ano);
 
-    /**
-     * @brief Exibe o consolidado mensal de horas trabalhadas.
-     */
-    void apresentarTotalHorasMensal() const;
+    std::string calcularHorasTrabalhadas(int codigoFuncionario,
+                                         std::string data);
+
+    std::string consultarHistorico(int codigoFuncionario);
+
+    std::string consultarRegistros(int codigoFuncionario);
 };
 
-#endif // RELATORIO_HPP
+#endif
