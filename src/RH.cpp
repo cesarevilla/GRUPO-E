@@ -106,12 +106,20 @@ std::string RH::consultarJustificativasFuncionarios()
     return resultado;
 }
 
-void RH::aceitarJustificativa(Justificativa& justificativa)
+void RH::aceitarJustificativa(Funcionario* funcionario,
+                              int indice)
 {
-    justificativa.aceitar();
+    if (funcionario != nullptr)
+    {
+        funcionario->aceitarJustificativa(indice);
+    }
 }
 
-void RH::rejeitarJustificativa(Justificativa& justificativa)
+void RH::rejeitarJustificativa(Funcionario* funcionario,
+                               int indice)
 {
-    justificativa.rejeitar();
+    if (funcionario != nullptr)
+    {
+        funcionario->rejeitarJustificativa(indice);
+    }
 }
