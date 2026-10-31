@@ -40,17 +40,28 @@ std::string Funcionario::consultarJustificativa()
 {
     if (justificativas.empty())
     {
-        return "Nenhuma justificativa cadastrada.";
+        return "Nenhuma justificativa cadastrada.\n";
     }
 
     std::string resultado;
 
     for (int i = 0; i < justificativas.size(); i++)
     {
-        resultado += "Justificativa " + std::to_string(i + 1) + ":\n";
-        resultado += "Data: " + justificativas[i].getData() + "\n";
-        resultado += "Motivo: " + justificativas[i].getMotivo() + "\n";
-        resultado += "Funcionario: " + justificativas[i].getFuncionario() + "\n";
+        resultado += "Justificativa ";
+        resultado += std::to_string(i + 1);
+        resultado += ":\n";
+
+        resultado += "Data: ";
+        resultado += justificativas[i].getData();
+        resultado += "\n";
+
+        resultado += "Motivo: ";
+        resultado += justificativas[i].getMotivo();
+        resultado += "\n";
+
+        resultado += "Funcionario: ";
+        resultado += justificativas[i].getFuncionario();
+        resultado += "\n";
 
         resultado += "Status: ";
 
@@ -83,4 +94,9 @@ std::string Funcionario::consultarNome()
 int Funcionario::consultarCodigo()
 {
     return codigo;
+}
+
+bool Funcionario::verificarSenha(std::string senha)
+{
+    return this->senha == senha;
 }
