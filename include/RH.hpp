@@ -1,60 +1,32 @@
-#ifndef REGISTRO_PONTO_HPP
-#define REGISTRO_PONTO_HPP
+#ifndef RH_HPP
+#define RH_HPP
+
+#include "Funcionario.hpp"
+#include "Justificativa.hpp"
 
 #include <string>
+#include <vector>
 
-/**
- * @file RegistroPonto.hpp
- * @brief Definição da classe RegistroPonto.
- */
-
-/**
- * @class RegistroPonto
- * @brief Responsável pelo controle e validação de batidas de ponto (check-in/check-out).
- */
-class RegistroPonto {
+class RH : public Funcionario
+{
 private:
-    int _idRegistro;
-    int _idFuncionario;
-    std::string _data;
-    std::string _horarioEntrada;
-    std::string _horarioSaida;
-    bool _emAberto;
+    std::vector<Funcionario*> funcionarios;
 
 public:
-    /**
-     * @brief Construtor do RegistroPonto.
-     * @param idRegistro Identificador do registro.
-     * @param idFuncionario Identificador do funcionário associado.
-     */
-    RegistroPonto(int idRegistro, int idFuncionario);
+    RH(std::string nome,
+       std::string senha,
+       int codigo,
+       Ponto* ponto);
 
-    /**
-     * @brief Registra a data e o horário exato de entrada.
-     * @param data Data no formato DD/MM/AAAA.
-     * @param hora Horário no formato HH:MM:SS.
-     * @return Verdadeiro se o check-in foi bem-sucedido.
-     */
-    bool registrarEntrada(const std::string& data, const std::string& hora);
+    void adicionarFuncionario(Funcionario* funcionario);
 
-    /**
-     * @brief Registra o horário exato de saída.
-     * @param hora Horário no formato HH:MM:SS.
-     * @return Verdadeiro se houver check-in em aberto correspondente.
-     */
-    bool registrarSaida(const std::string& hora);
+    std::string consultarFuncionarios();
+    std::string consultarRegistros(Funcionario* funcionario);
+    std::string consultarHorasFuncionarios();
+    std::string consultarJustificativasFuncionarios();
 
-    /**
-     * @brief Verifica se existe um check-in em aberto sem check-out correspondente.
-     * @return Verdadeiro se estiver em aberto.
-     */
-    bool estaEmAberto() const;
-
-    /**
-     * @brief Retorna o ID do funcionário associado a este registro.
-     * @return ID do funcionário.
-     */
-    int getIdFuncionario() const;
+    void aceitarJustificativa(Justificativa& justificativa);
+    void rejeitarJustificativa(Justificativa& justificativa);
 };
 
-#endif // REGISTRO_PONTO_HPP
+#endif
