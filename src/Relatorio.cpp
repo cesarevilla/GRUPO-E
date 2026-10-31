@@ -1,5 +1,7 @@
 #include "Relatorio.hpp"
 
+#include <iomanip>
+#include <sstream>
 #include <string>
 
 Relatorio::Relatorio(Ponto* ponto)
@@ -12,7 +14,8 @@ std::string Relatorio::gerarRelatorioDiario(int codigoFuncionario,
 {
     std::string resultado;
 
-    resultado += "RELATORIO DIARIO\n";
+    resultado += "===== RELATORIO DIARIO =====\n";
+
     resultado += "Funcionario: ";
     resultado += std::to_string(codigoFuncionario);
     resultado += "\n";
@@ -21,9 +24,30 @@ std::string Relatorio::gerarRelatorioDiario(int codigoFuncionario,
     resultado += data;
     resultado += "\n\n";
 
-    resultado += consultarRegistros(codigoFuncionario);
+    std::string entrada =
+        ponto->getHorarioEntrada(codigoFuncionario, data);
+
+    std::string saida =
+        ponto->getHorarioSaida(codigoFuncionario, data);
+
+    resultado += "Entrada: ";
+
+    if (entrada.empty())
+        resultado += "Nao registrada";
+    else
+        resultado += entrada;
 
     resultado += "\n";
+
+    resultado += "Saida: ";
+
+    if (saida.empty())
+        resultado += "Nao registrada";
+    else
+        resultado += saida;
+
+    resultado += "\n\n";
+
     resultado += calcularHorasTrabalhadas(codigoFuncionario, data);
 
     return resultado;
@@ -35,12 +59,13 @@ std::string Relatorio::gerarRelatorioMensal(int codigoFuncionario,
 {
     std::string resultado;
 
-    resultado += "RELATORIO MENSAL\n";
+    resultado += "===== RELATORIO MENSAL =====\n";
+
     resultado += "Funcionario: ";
     resultado += std::to_string(codigoFuncionario);
     resultado += "\n";
 
-    resultado += "Mes: ";
+    resultado += "Periodo: ";
     resultado += std::to_string(mes);
     resultado += "/";
     resultado += std::to_string(ano);
@@ -54,12 +79,15 @@ std::string Relatorio::gerarRelatorioMensal(int codigoFuncionario,
 std::string Relatorio::calcularHorasTrabalhadas(int codigoFuncionario,
                                                 std::string data)
 {
-    std::string entrada = ponto->getHorarioEntrada(codigoFuncionario, data);
-    std::string saida = ponto->getHorarioSaida(codigoFuncionario, data);
+    std::string entrada =
+        ponto->getHorarioEntrada(codigoFuncionario, data);
 
-    if (entrada == "" || saida == "")
+    std::string saida =
+        ponto->getHorarioSaida(codigoFuncionario, data);
+
+    if (entrada.empty() || saida.empty())
     {
-        return "Nao foi possivel calcular as horas trabalhadas.";
+        return "Horas trabalhadas: nao foi possivel calcular.\n";
     }
 
     int horaEntrada = std::stoi(entrada.substr(0, 2));
@@ -80,16 +108,20 @@ std::string Relatorio::calcularHorasTrabalhadas(int codigoFuncionario,
         minutoSaida * 60 +
         segundoSaida;
 
-    int segundosTrabalhados = segundosSaida - segundosEntrada;
+    int totalSegundos = segundosSaida - segundosEntrada;
 
-    if (segundosTrabalhados < 0)
+    if (totalSegundos < 0)
     {
-        return "Erro: horario de saida anterior ao horario de entrada.";
+        return "Erro: horario de saida anterior ao horario de entrada.\n";
     }
 
-    int horas = segundosTrabalhados / 3600;
-    int minutos = (segundosTrabalhados % 3600) / 60;
-    int segundos = segundosTrabalhados % 60;
+    int horas = totalSegundos / 3600;
+
+    int minutos =
+        (totalSegundos % 3600) / 60;
+
+    int segundos =
+        totalSegundos % 60;
 
     std::string resultado;
 
@@ -99,7 +131,7 @@ std::string Relatorio::calcularHorasTrabalhadas(int codigoFuncionario,
     resultado += std::to_string(minutos);
     resultado += "min ";
     resultado += std::to_string(segundos);
-    resultado += "s";
+    resultado += "s\n";
 
     return resultado;
 }
