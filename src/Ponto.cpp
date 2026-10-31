@@ -1,23 +1,49 @@
 #include "Ponto.hpp"
 
 #include <ctime>
+#include <iomanip>
+#include <sstream>
 
-void Ponto::registrarEntrada(int codigoFuncionario)
+Ponto::Registro Ponto::criarRegistro(int codigoFuncionario,
+                                      const std::string& tipo)
 {
     Registro registro;
 
     registro.codigoFuncionario = codigoFuncionario;
-    registro.tipo = "entrada";
+    registro.tipo = tipo;
+
+    std::time_t agora = std::time(nullptr);
+    std::tm* tempo = std::localtime(&agora);
+
+    std::ostringstream data;
+    data << std::setfill('0')
+         << std::setw(2) << tempo->tm_mday << "/"
+         << std::setw(2) << tempo->tm_mon + 1 << "/"
+         << tempo->tm_year + 1900;
+
+    registro.data = data.str();
+
+    std::ostringstream horario;
+    horario << std::setfill('0')
+            << std::setw(2) << tempo->tm_hour << ":"
+            << std::setw(2) << tempo->tm_min << ":"
+            << std::setw(2) << tempo->tm_sec;
+
+    registro.horario = horario.str();
+
+    return registro;
+}
+
+void Ponto::registrarEntrada(int codigoFuncionario)
+{
+    Registro registro = criarRegistro(codigoFuncionario, "entrada");
 
     registros.push_back(registro);
 }
 
 void Ponto::registrarSaida(int codigoFuncionario)
 {
-    Registro registro;
-
-    registro.codigoFuncionario = codigoFuncionario;
-    registro.tipo = "saida";
+    Registro registro = criarRegistro(codigoFuncionario, "saida");
 
     registros.push_back(registro);
 }
