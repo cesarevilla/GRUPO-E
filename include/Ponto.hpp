@@ -17,6 +17,9 @@ private:
 
     std::vector<Registro> registros;
 
+    Registro criarRegistro(int codigoFuncionario,
+                           const std::string& tipo);
+
 public:
     void registrarEntrada(int codigoFuncionario);
     void registrarSaida(int codigoFuncionario);
