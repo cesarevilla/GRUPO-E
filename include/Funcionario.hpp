@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+
 #include "Justificativa.hpp"
 
 class Ponto;
@@ -13,9 +14,7 @@ private:
     std::string nome;
     std::string senha;
     int codigo;
-
     std::vector<Justificativa> justificativas;
-
     Ponto* ponto;
 
 public:
@@ -24,7 +23,11 @@ public:
                 int codigo,
                 Ponto* ponto);
 
+    // Necessario para dynamic_cast<RH*> e para delete via ponteiro de base
+    virtual ~Funcionario() = default;
+
     void registrarEntrada();
+
     void registrarSaida();
 
     void criarJustificativa(std::string data,
@@ -32,14 +35,17 @@ public:
                             std::string status);
 
     std::string consultarHoras();
+
     std::string consultarJustificativa();
 
     std::string consultarNome();
+
     int consultarCodigo();
 
     bool verificarSenha(std::string senha);
 
     void aceitarJustificativa(int indice);
+
     void rejeitarJustificativa(int indice);
 };
 

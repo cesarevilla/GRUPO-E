@@ -6,12 +6,27 @@ GerenciadorSistema::GerenciadorSistema(Ponto* ponto)
     this->ponto = ponto;
 }
 
+GerenciadorSistema::~GerenciadorSistema()
+{
+    // Os RH tambem estao em "funcionarios", entao so apagamos este vetor.
+    for (Funcionario* f : funcionarios)
+    {
+        delete f;
+    }
+}
+
 void GerenciadorSistema::adicionarFuncionario(
     Funcionario* funcionario)
 {
     if (funcionario != nullptr)
     {
         funcionarios.push_back(funcionario);
+
+        // Todo RH ja cadastrado passa a enxergar o novo funcionario
+        for (RH* rh : rhs)
+        {
+            rh->adicionarFuncionario(funcionario);
+        }
     }
 }
 
@@ -21,7 +36,17 @@ void GerenciadorSistema::adicionarRH(RH* rh)
     {
         rhs.push_back(rh);
 
-        adicionarFuncionario(rh);
+        // Fica em "funcionarios" para o login encontra-lo
+        funcionarios.push_back(rh);
+
+        // O novo RH enxerga os funcionarios comuns ja cadastrados
+        for (Funcionario* f : funcionarios)
+        {
+            if (dynamic_cast<RH*>(f) == nullptr)
+            {
+                rh->adicionarFuncionario(f);
+            }
+        }
     }
 }
 
@@ -32,6 +57,19 @@ Funcionario* GerenciadorSistema::login(int codigo,
     {
         if (funcionarios[i]->consultarCodigo() == codigo &&
             funcionarios[i]->verificarSenha(senha))
+        {
+            return funcionarios[i];
+        }
+    }
+
+    return nullptr;
+}
+
+Funcionario* GerenciadorSistema::buscarPorCodigo(int codigo)
+{
+    for (int i = 0; i < funcionarios.size(); i++)
+    {
+        if (funcionarios[i]->consultarCodigo() == codigo)
         {
             return funcionarios[i];
         }

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <cstdlib>
 
 #include "Funcionario.hpp"
 #include "RH.hpp"
@@ -11,8 +12,8 @@ using namespace std;
 
 void pausar()
 {
+    // O buffer ja esta limpo antes de toda chamada, por isso so cin.get()
     cout << "\nPressione ENTER para continuar...";
-    cin.ignore();
     cin.get();
 }
 
@@ -277,26 +278,11 @@ void menuRH(GerenciadorSistema& sistema,
 
                 cin.ignore(10000, '\n');
 
-                Funcionario* funcionario = sistema.login(codigo, "");
-
-                /*
-                    Como o login exige senha, procuramos o funcionario
-                    atraves da lista conhecida pelo RH.
-
-                    Para este teste, usamos o codigo e percorremos
-                    os funcionarios cadastrados.
-                */
-
-                cout << "\nDigite a senha do funcionario: ";
-
-                string senha;
-                getline(cin, senha);
-
-                funcionario = sistema.login(codigo, senha);
+                Funcionario* funcionario = sistema.buscarPorCodigo(codigo);
 
                 if (funcionario == nullptr)
                 {
-                    cout << "\nFuncionario nao encontrado ou senha incorreta.\n";
+                    cout << "\nFuncionario nao encontrado.\n";
                 }
                 else
                 {
@@ -353,17 +339,11 @@ void menuRH(GerenciadorSistema& sistema,
 
                 cin.ignore(10000, '\n');
 
-                cout << "Senha do funcionario: ";
-
-                string senha;
-                getline(cin, senha);
-
-                Funcionario* funcionario =
-                    sistema.login(codigo, senha);
+                Funcionario* funcionario = sistema.buscarPorCodigo(codigo);
 
                 if (funcionario == nullptr)
                 {
-                    cout << "\nFuncionario nao encontrado ou senha incorreta.\n";
+                    cout << "\nFuncionario nao encontrado.\n";
                 }
                 else
                 {
@@ -404,17 +384,11 @@ void menuRH(GerenciadorSistema& sistema,
 
                 cin.ignore(10000, '\n');
 
-                cout << "Senha do funcionario: ";
-
-                string senha;
-                getline(cin, senha);
-
-                Funcionario* funcionario =
-                    sistema.login(codigo, senha);
+                Funcionario* funcionario = sistema.buscarPorCodigo(codigo);
 
                 if (funcionario == nullptr)
                 {
-                    cout << "\nFuncionario nao encontrado ou senha incorreta.\n";
+                    cout << "\nFuncionario nao encontrado.\n";
                 }
                 else
                 {
@@ -447,52 +421,152 @@ void menuRH(GerenciadorSistema& sistema,
     } while (opcao != 0);
 }
 
+Funcionario* telaLogin(GerenciadorSistema& sistema)
+{
+    limparTela();
+
+    cout << "====================================\n";
+    cout << "               ENTRAR\n";
+    cout << "====================================\n\n";
+
+    int codigo;
+    cout << "Codigo: ";
+    cin >> codigo;
+
+    if (cin.fail())
+    {
+        cin.clear();
+        cin.ignore(10000, '\n');
+
+        cout << "\nCodigo invalido! Digite um numero.\n";
+        pausar();
+        return nullptr;
+    }
+
+    cin.ignore(10000, '\n');
+
+    string senha;
+    cout << "Senha: ";
+    getline(cin, senha);
+
+    Funcionario* usuario = sistema.login(codigo, senha);
+
+    if (usuario == nullptr)
+    {
+        cout << "\nCodigo ou senha incorretos!\n";
+        pausar();
+    }
+
+    return usuario;
+}
+
+void criarConta(GerenciadorSistema& sistema, Ponto* ponto)
+{
+    limparTela();
+
+    cout << "====================================\n";
+    cout << "            CRIAR CONTA\n";
+    cout << "====================================\n\n";
+
+    cout << "1 - Funcionario\n";
+    cout << "2 - RH\n";
+    cout << "0 - Voltar\n";
+    cout << "\nTipo de conta: ";
+
+    int tipo;
+    cin >> tipo;
+
+    if (cin.fail())
+    {
+        cin.clear();
+        cin.ignore(10000, '\n');
+
+        cout << "\nOpcao invalida!\n";
+        pausar();
+        return;
+    }
+
+    cin.ignore(10000, '\n');
+
+    if (tipo == 0)
+    {
+        return;
+    }
+
+    if (tipo != 1 && tipo != 2)
+    {
+        cout << "\nOpcao invalida!\n";
+        pausar();
+        return;
+    }
+
+    string nome;
+    cout << "Nome: ";
+    getline(cin, nome);
+
+    int codigo;
+    cout << "Codigo (numero maior que 0): ";
+    cin >> codigo;
+
+    if (cin.fail())
+    {
+        cin.clear();
+        cin.ignore(10000, '\n');
+
+        cout << "\nCodigo invalido! Digite um numero.\n";
+        pausar();
+        return;
+    }
+
+    cin.ignore(10000, '\n');
+
+    if (codigo <= 0)
+    {
+        cout << "\nO codigo deve ser maior que 0.\n";
+        pausar();
+        return;
+    }
+
+    if (sistema.buscarPorCodigo(codigo) != nullptr)
+    {
+        cout << "\nEsse codigo ja esta em uso.\n";
+        pausar();
+        return;
+    }
+
+    string senha;
+    cout << "Senha: ";
+    getline(cin, senha);
+
+    if (nome.empty() || senha.empty())
+    {
+        cout << "\nNome e senha nao podem ficar vazios.\n";
+        pausar();
+        return;
+    }
+
+    if (tipo == 1)
+    {
+        sistema.adicionarFuncionario(
+            new Funcionario(nome, senha, codigo, ponto)
+        );
+    }
+    else
+    {
+        sistema.adicionarRH(
+            new RH(nome, senha, codigo, ponto)
+        );
+    }
+
+    cout << "\nConta criada com sucesso! Agora voce ja pode entrar.\n";
+    pausar();
+}
+
 int main()
 {
     Ponto ponto;
 
     GerenciadorSistema sistema(&ponto);
-
-    /*
-        ====================================
-        CADASTRO DOS FUNCIONARIOS
-        ====================================
-    */
-
-    Funcionario funcionario1(
-        "Carlos",
-        "1234",
-        1,
-        &ponto
-    );
-
-    Funcionario funcionario2(
-        "Maria",
-        "5678",
-        2,
-        &ponto
-    );
-
-    RH rh(
-        "Administrador",
-        "admin",
-        100,
-        &ponto
-    );
-
-    sistema.adicionarFuncionario(&funcionario1);
-    sistema.adicionarFuncionario(&funcionario2);
-
-    rh.adicionarFuncionario(&funcionario1);
-    rh.adicionarFuncionario(&funcionario2);
-
-    sistema.adicionarRH(&rh);
-
-    /*
-        ====================================
-        LOGIN
-        ====================================
-    */
 
     while (true)
     {
@@ -502,53 +576,55 @@ int main()
         cout << "       SISTEMA DE CONTROLE DE PONTO\n";
         cout << "====================================\n\n";
 
-        cout << "Digite 0 para sair.\n\n";
+        cout << "1 - Entrar\n";
+        cout << "2 - Criar conta\n";
+        cout << "0 - Sair\n";
+        cout << "\nEscolha uma opcao: ";
 
-        int codigo;
-
-        cout << "Codigo: ";
-        cin >> codigo;
+        int opcao;
+        cin >> opcao;
 
         if (cin.fail())
         {
             cin.clear();
             cin.ignore(10000, '\n');
 
-            cout << "\nCodigo invalido! Digite um numero.\n";
+            cout << "\nOpcao invalida! Digite um numero.\n";
             pausar();
             continue;
         }
 
-        if (codigo == 0)
+        cin.ignore(10000, '\n');
+
+        if (opcao == 0)
         {
             cout << "\nEncerrando sistema...\n";
             break;
         }
 
-        cin.ignore(10000, '\n');
-
-        string senha;
-
-        cout << "Senha: ";
-        getline(cin, senha);
-
-        Funcionario* usuario =
-            sistema.login(codigo, senha);
-
-        if (usuario == nullptr)
+        if (opcao == 2)
         {
-            cout << "\nCodigo ou senha incorretos!\n";
+            criarConta(sistema, &ponto);
+            continue;
+        }
+
+        if (opcao != 1)
+        {
+            cout << "\nOpcao invalida!\n";
             pausar();
             continue;
         }
 
-        /*
-            Se o usuario for o RH, abre o menu de RH.
-        */
+        Funcionario* usuario = telaLogin(sistema);
 
-        if (usuario == &rh)
+        if (usuario == nullptr)
         {
-            menuRH(sistema, &rh);
+            continue;
+        }
+
+        if (RH* rh = dynamic_cast<RH*>(usuario))
+        {
+            menuRH(sistema, rh);
         }
         else
         {

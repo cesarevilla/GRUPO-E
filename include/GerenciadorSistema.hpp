@@ -12,21 +12,36 @@
 class GerenciadorSistema
 {
 private:
+    // Dono dos objetos: todos os RH tambem ficam neste vetor.
     std::vector<Funcionario*> funcionarios;
+
+    // Apenas referencias aos RH (a memoria e liberada via "funcionarios").
     std::vector<RH*> rhs;
 
     Ponto* ponto;
+
     Relatorio relatorio;
 
 public:
     GerenciadorSistema(Ponto* ponto);
 
+    ~GerenciadorSistema();
+
+    // Evita copias acidentais (causariam delete duplo)
+    GerenciadorSistema(const GerenciadorSistema&) = delete;
+    GerenciadorSistema& operator=(const GerenciadorSistema&) = delete;
+
+    // Os objetos devem ser criados com "new"
     void adicionarFuncionario(Funcionario* funcionario);
+
     void adicionarRH(RH* rh);
 
     Funcionario* login(int codigo, std::string senha);
 
+    Funcionario* buscarPorCodigo(int codigo);
+
     void registrarEntrada(Funcionario* funcionario);
+
     void registrarSaida(Funcionario* funcionario);
 
     std::string consultarHistorico(Funcionario* funcionario);
