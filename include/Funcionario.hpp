@@ -17,17 +17,20 @@ private:
     std::vector<Justificativa> justificativas;
     Ponto* ponto;
 
+    friend class RH;
+
+    void aceitarJustificativa(int indice);
+    void rejeitarJustificativa(int indice);
+
 public:
     Funcionario(std::string nome,
                 std::string senha,
                 int codigo,
                 Ponto* ponto);
 
-    // Necessario para dynamic_cast<RH*> e para delete via ponteiro de base
     virtual ~Funcionario() = default;
 
     void registrarEntrada();
-
     void registrarSaida();
 
     void criarJustificativa(std::string data,
@@ -35,18 +38,10 @@ public:
                             std::string status);
 
     std::string consultarHoras();
-
     std::string consultarJustificativa();
-
     std::string consultarNome();
-
     int consultarCodigo();
-
     bool verificarSenha(std::string senha);
-
-    void aceitarJustificativa(int indice);
-
-    void rejeitarJustificativa(int indice);
 };
 
 #endif
