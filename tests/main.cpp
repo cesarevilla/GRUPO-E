@@ -12,7 +12,6 @@ using namespace std;
 
 void pausar()
 {
-    // O buffer ja esta limpo antes de toda chamada, por isso so cin.get()
     cout << "\nPressione ENTER para continuar...";
     cin.get();
 }
@@ -48,7 +47,7 @@ void menuFuncionario(GerenciadorSistema& sistema,
         cout << "5 - Consultar justificativas\n";
         cout << "6 - Relatorio diario\n";
         cout << "7 - Relatorio mensal\n";
-        cout << "0 - Sair da conta\n";
+        cout << "0 - Sair / Voltar\n";
         cout << "\nEscolha uma opcao: ";
 
         cin >> opcao;
@@ -70,7 +69,6 @@ void menuFuncionario(GerenciadorSistema& sistema,
             case 1:
             {
                 sistema.registrarEntrada(funcionario);
-
                 cout << "\nEntrada registrada com sucesso!\n";
                 pausar();
                 break;
@@ -79,7 +77,6 @@ void menuFuncionario(GerenciadorSistema& sistema,
             case 2:
             {
                 sistema.registrarSaida(funcionario);
-
                 cout << "\nSaida registrada com sucesso!\n";
                 pausar();
                 break;
@@ -88,9 +85,7 @@ void menuFuncionario(GerenciadorSistema& sistema,
             case 3:
             {
                 cout << "\n========== HISTORICO ==========\n\n";
-
                 cout << sistema.consultarHistorico(funcionario);
-
                 pausar();
                 break;
             }
@@ -101,7 +96,6 @@ void menuFuncionario(GerenciadorSistema& sistema,
                 string motivo;
 
                 cout << "\n========== NOVA JUSTIFICATIVA ==========\n";
-
                 cout << "Data (dd/mm/aaaa): ";
                 getline(cin, data);
 
@@ -116,7 +110,6 @@ void menuFuncionario(GerenciadorSistema& sistema,
                 );
 
                 cout << "\nJustificativa enviada com sucesso!\n";
-
                 pausar();
                 break;
             }
@@ -124,9 +117,7 @@ void menuFuncionario(GerenciadorSistema& sistema,
             case 5:
             {
                 cout << "\n========== JUSTIFICATIVAS ==========\n\n";
-
                 cout << sistema.consultarJustificativas(funcionario);
-
                 pausar();
                 break;
             }
@@ -134,14 +125,11 @@ void menuFuncionario(GerenciadorSistema& sistema,
             case 6:
             {
                 string data;
-
                 cout << "\n========== RELATORIO DIARIO ==========\n";
-
                 cout << "Data (dd/mm/aaaa): ";
                 getline(cin, data);
 
                 cout << "\n";
-
                 cout << sistema.getRelatorio()
                             ->gerarRelatorioDiario(
                                 funcionario->consultarCodigo(),
@@ -158,7 +146,6 @@ void menuFuncionario(GerenciadorSistema& sistema,
                 int ano;
 
                 cout << "\n========== RELATORIO MENSAL ==========\n";
-
                 cout << "Mes: ";
                 cin >> mes;
 
@@ -178,7 +165,6 @@ void menuFuncionario(GerenciadorSistema& sistema,
                 cin.ignore(10000, '\n');
 
                 cout << "\n";
-
                 cout << sistema.getRelatorio()
                             ->gerarRelatorioMensal(
                                 funcionario->consultarCodigo(),
@@ -192,7 +178,7 @@ void menuFuncionario(GerenciadorSistema& sistema,
 
             case 0:
             {
-                cout << "\nSaindo da conta...\n";
+                cout << "\nSaindo...\n";
                 break;
             }
 
@@ -207,8 +193,7 @@ void menuFuncionario(GerenciadorSistema& sistema,
     } while (opcao != 0);
 }
 
-void menuRH(GerenciadorSistema& sistema,
-            RH* rh)
+void menuRH(GerenciadorSistema& sistema, RH* rh)
 {
     int opcao = 0;
 
@@ -217,17 +202,20 @@ void menuRH(GerenciadorSistema& sistema,
         limparTela();
 
         cout << "====================================\n";
-        cout << "              MENU RH\n";
+        cout << "              MENU RH               \n";
         cout << "====================================\n";
         cout << "RH: " << rh->consultarNome() << "\n";
         cout << "Codigo: " << rh->consultarCodigo() << "\n\n";
 
-        cout << "1 - Consultar funcionarios\n";
-        cout << "2 - Consultar registros de funcionario\n";
-        cout << "3 - Consultar horas dos funcionarios\n";
-        cout << "4 - Consultar justificativas\n";
-        cout << "5 - Aceitar justificativa\n";
-        cout << "6 - Rejeitar justificativa\n";
+        cout << "--- PAINEL ADMINISTRATIVO (RH) ---\n";
+        cout << "1 - Consultar todos os funcionarios\n";
+        cout << "2 - Consultar horas dos funcionarios\n";
+        cout << "3 - Consultar justificativas de todos\n";
+        cout << "4 - Aceitar justificativa\n";
+        cout << "5 - Rejeitar justificativa\n\n";
+        
+        cout << "--- PAINEL PESSOAL ---\n";
+        cout << "6 - Meu Ponto / Minhas Justificativas (Menu Funcionario)\n";
         cout << "0 - Sair da conta\n";
         cout << "\nEscolha uma opcao: ";
 
@@ -250,77 +238,33 @@ void menuRH(GerenciadorSistema& sistema,
             case 1:
             {
                 cout << "\n========== FUNCIONARIOS ==========\n\n";
-
                 cout << rh->consultarFuncionarios();
-
                 pausar();
                 break;
             }
 
             case 2:
             {
-                int codigo;
-
-                cout << "\n========== REGISTROS ==========\n";
-
-                cout << "Codigo do funcionario: ";
-                cin >> codigo;
-
-                if (cin.fail())
-                {
-                    cin.clear();
-                    cin.ignore(10000, '\n');
-
-                    cout << "\nCodigo invalido!\n";
-                    pausar();
-                    break;
-                }
-
-                cin.ignore(10000, '\n');
-
-                Funcionario* funcionario = sistema.buscarPorCodigo(codigo);
-
-                if (funcionario == nullptr)
-                {
-                    cout << "\nFuncionario nao encontrado.\n";
-                }
-                else
-                {
-                    cout << "\n";
-                    cout << rh->consultarRegistros(funcionario);
-                }
-
+                cout << "\n========== HORAS DOS FUNCIONARIOS ==========\n\n";
+                cout << rh->consultarHorasFuncionarios();
                 pausar();
                 break;
             }
 
             case 3:
             {
-                cout << "\n========== HORAS DOS FUNCIONARIOS ==========\n\n";
-
-                cout << rh->consultarHorasFuncionarios();
-
+                cout << "\n========== JUSTIFICATIVAS ==========\n\n";
+                cout << rh->consultarJustificativasFuncionarios();
                 pausar();
                 break;
             }
 
             case 4:
             {
-                cout << "\n========== JUSTIFICATIVAS ==========\n\n";
-
-                cout << rh->consultarJustificativasFuncionarios();
-
-                pausar();
-                break;
-            }
-
-            case 5:
-            {
                 int codigo;
                 int indice;
 
                 cout << "\n========== ACEITAR JUSTIFICATIVA ==========\n";
-
                 cout << "Codigo do funcionario: ";
                 cin >> codigo;
 
@@ -359,13 +303,12 @@ void menuRH(GerenciadorSistema& sistema,
                 break;
             }
 
-            case 6:
+            case 5:
             {
                 int codigo;
                 int indice;
 
                 cout << "\n========== REJEITAR JUSTIFICATIVA ==========\n";
-
                 cout << "Codigo do funcionario: ";
                 cin >> codigo;
 
@@ -404,6 +347,13 @@ void menuRH(GerenciadorSistema& sistema,
                 break;
             }
 
+            case 6:
+            {
+                // Como RH herda de Funcionario, ele pode abrir o menu normal de funcionario
+                menuFuncionario(sistema, rh);
+                break;
+            }
+
             case 0:
             {
                 cout << "\nSaindo da conta...\n";
@@ -426,7 +376,7 @@ Funcionario* telaLogin(GerenciadorSistema& sistema)
     limparTela();
 
     cout << "====================================\n";
-    cout << "               ENTRAR\n";
+    cout << "               ENTRAR               \n";
     cout << "====================================\n\n";
 
     int codigo;
@@ -465,7 +415,7 @@ void criarConta(GerenciadorSistema& sistema, Ponto* ponto)
     limparTela();
 
     cout << "====================================\n";
-    cout << "            CRIAR CONTA\n";
+    cout << "             CRIAR CONTA            \n";
     cout << "====================================\n\n";
 
     cout << "1 - Funcionario\n";
@@ -553,9 +503,10 @@ void criarConta(GerenciadorSistema& sistema, Ponto* ponto)
     }
     else
     {
-        sistema.adicionarRH(
-            new RH(nome, senha, codigo, ponto)
-        );
+        RH* rhNovo = new RH(nome, senha, codigo, ponto);
+        sistema.adicionarRH(rhNovo);
+        // Opcional: RH tambem se cadastra na propria lista de funcionarios gerenciados
+        rhNovo->adicionarFuncionario(rhNovo); 
     }
 
     cout << "\nConta criada com sucesso! Agora voce ja pode entrar.\n";
